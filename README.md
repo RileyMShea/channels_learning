@@ -16,7 +16,7 @@ http, and server side events(SSE) were plagued by low performance(slow), high
   develop, maintain, debug).
 
 ##### Why would I not want to use websockets?
-If your app/component/api doesn't require realtime bi-directional communication then HTTP(Ideally HTTP2) is still probably your best choice.  HTTP is very well supported across all programming languages and end-user clients. Websockets is still newer and may not be supported by legacy browers/clients and many languages outside javascript may have a hard time making use of it.
+If your app/component/api doesn't require realtime bi-directional communication, then HTTP(Ideally HTTP2) is still probably your best choice.  HTTP is very well supported across all programming languages and end-user clients. Websockets is still newer and may not be supported by legacy browers/clients and many languages outside javascript may have a hard time making use of it.
 
 
 System Requirements:

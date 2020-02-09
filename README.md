@@ -4,19 +4,19 @@
 ##### Websockets: what is it?
 
 Websockets (`ws://`) is a newer internet protocol designed for real-time
- communication. It is extremely performant through use of persistent, open
+ communication. It is extremely performant by using persistent, open
  , bidirectional communication between the client-server.
 
 ##### What problem do websockets solve?
 
 Previous internet protocols were centered around HTTP (`http://`) and were never
 designed to accommodate real-time applications.  Hacks like long long-polling
-http, and server side events(SSE) were either low performance(slow), high
- overhead(computationally expensive) or highly complex to implement(hard to
+http, and server side events(SSE) were plagued by low performance(slow), high
+ overhead(computationally expensive) or high technical debt(hard to
   develop, maintain, debug).
 
 ##### Why would I not want to use websockets?
-TODO:
+If your app/component/api doesn't require realtime bi-directional communication then HTTP(Ideally HTTP2) is still probably your best choice.  HTTP is very well supported across all programming languages and end-user clients. Websockets is still newer and may not be supported by legacy browers/clients and many languages outside javascript may have a hard time making use of it.
 
 
 System Requirements:
@@ -47,5 +47,7 @@ docker run -p 6379:6379 redis:2.8
 # start the server
 python manage.py runserver
 
-# navigate to http://127.0.0.1:8000/chat/lobby/ in your web browser
+# navigate to http://127.0.0.1:8000/chat/lobby/ in your web browser; do the same in a second tab/window
+# type a message
+# see it in both chats in real time.
 ```

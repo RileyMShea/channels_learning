@@ -23,6 +23,7 @@ System Requirements:
 
 - Ubuntu 18.0.x+(tested on 19.10)
 - Python 3.8.x
+    - Virtualenv
     - Poetry
     - Django 3.0.x
         - Django Channels

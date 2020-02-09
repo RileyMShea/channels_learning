@@ -9,21 +9,20 @@ class ChatTests(ChannelsLiveServerTestCase):
     serve_static = True  # emulate StaticLiveServerTestCase
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         super().setUpClass()
         try:
-            # NOTE: Requires "chromedriver" binary to be installed in $PATH
             cls.driver = webdriver.Chrome()
         except:
             super().tearDownClass()
             raise
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         cls.driver.quit()
         super().tearDownClass()
 
-    def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self):
+    def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self) -> None:
         try:
             self._enter_chat_room("room_1")
 
@@ -44,7 +43,9 @@ class ChatTests(ChannelsLiveServerTestCase):
         finally:
             self._close_all_new_windows()
 
-    def test_when_chat_message_posted_then_not_seen_by_anyone_in_different_room(self):
+    def test_when_chat_message_posted_then_not_seen_by_anyone_in_different_room(
+        self,
+    ) -> None:
         try:
             self._enter_chat_room("room_1")
 
@@ -73,32 +74,34 @@ class ChatTests(ChannelsLiveServerTestCase):
 
     # === Utility ===
 
-    def _enter_chat_room(self, room_name):
+    def _enter_chat_room(self, room_name: str) -> None:
         self.driver.get(self.live_server_url + "/chat/")
         ActionChains(self.driver).send_keys(room_name + "\n").perform()
         WebDriverWait(self.driver, 2).until(
             lambda _: room_name in self.driver.current_url
         )
 
-    def _open_new_window(self):
+    def _open_new_window(self) -> None:
         self.driver.execute_script('window.open("about:blank", "_blank");')
         self.driver.switch_to_window(self.driver.window_handles[-1])
 
-    def _close_all_new_windows(self):
+    def _close_all_new_windows(self) -> None:
         while len(self.driver.window_handles) > 1:
             self.driver.switch_to_window(self.driver.window_handles[-1])
             self.driver.execute_script("window.close();")
         if len(self.driver.window_handles) == 1:
             self.driver.switch_to_window(self.driver.window_handles[0])
 
-    def _switch_to_window(self, window_index):
+    def _switch_to_window(self, window_index: int) -> None:
         self.driver.switch_to_window(self.driver.window_handles[window_index])
 
-    def _post_message(self, message):
+    def _post_message(self, message: str) -> None:
         ActionChains(self.driver).send_keys(message + "\n").perform()
 
     @property
-    def _chat_log_value(self):
-        return self.driver.find_element_by_css_selector("#chat-log").get_property(
-            "value"
-        )
+    def _chat_log_value(self) -> str:
+        chat_log_val = self.driver.find_element_by_css_selector(
+            "#chat-log"
+        ).get_property("value")
+        assert isinstance(chat_log_val, str)
+        return str(chat_log_val)

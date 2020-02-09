@@ -1,11 +1,12 @@
 # chat/consumers.py
 import json
+from typing import Any, Mapping
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
-    async def connect(self):
+    async def connect(self) -> None:
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = "chat_%s" % self.room_name
 
@@ -14,12 +15,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-    async def disconnect(self, close_code):
-        # Leave room group
+    async def disconnect(self, close_code: Any) -> None:
+        """Leave room group"""
+
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
-    # Receive message from WebSocket
-    async def receive(self, text_data):
+    async def receive(self, text_data: str) -> None:
+        """Receive message from WebSocket"""
+
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
 
@@ -28,8 +31,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name, {"type": "chat_message", "message": message}
         )
 
-    # Receive message from room group
-    async def chat_message(self, event):
+    async def chat_message(self, event: Mapping[str, str]) -> None:
+        """Receive message from room group"""
+
         message = event["message"]
 
         # Send message to WebSocket

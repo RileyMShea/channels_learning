@@ -9,7 +9,7 @@ Websockets (`ws://`) is a newer internet protocol designed for real-time
 
 ##### What problem do websockets solve?
 
-Previous internet protocols were centered around HTTP (`http://`) and were never
+Previous internet communication was centered around HTTP (`http://`) and which was never
 designed to accommodate real-time applications.  Hacks like long long-polling
 http, and server side events(SSE) were plagued by low performance(slow), high
  overhead(computationally expensive) or high technical debt(hard to
